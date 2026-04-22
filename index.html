@@ -1875,30 +1875,27 @@
   }
 
   .kitchen-strip-viewport {
-    overflow: hidden;
-    padding: 0 0 20px;
-    mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 40px 24px;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    scroll-padding-left: 40px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ink) transparent;
+    cursor: grab;
+    mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
   }
+  .kitchen-strip-viewport.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+  .kitchen-strip-viewport::-webkit-scrollbar { height: 8px; }
+  .kitchen-strip-viewport::-webkit-scrollbar-track { background: transparent; }
+  .kitchen-strip-viewport::-webkit-scrollbar-thumb { background: var(--ink); border-radius: 10px; }
 
   .kitchen-strip-track {
     display: flex;
     gap: 20px;
     width: max-content;
-    animation: photo-marquee 60s linear infinite;
-  }
-
-  .kitchen-strip-track:hover {
-    animation-play-state: paused;
-  }
-
-  @keyframes photo-marquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .kitchen-strip-track { animation: none; }
   }
 
   .kitchen-photo {
@@ -1906,6 +1903,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    scroll-snap-align: start;
   }
 
   .kitchen-photo-img {
@@ -2112,15 +2110,6 @@
     <figure class="kitchen-photo"><div class="kitchen-photo-img" style="background-image: url('photo-7.jpg');"></div></figure>
     <figure class="kitchen-photo"><div class="kitchen-photo-img" style="background-image: url('photo-8.jpg');"></div></figure>
     <figure class="kitchen-photo"><div class="kitchen-photo-img" style="background-image: url('photo-9.jpg');"></div></figure>
-    <figure class="kitchen-photo"><div class="kitchen-photo-img" style="background-image: url('photo-1.jpg');"></div></figure>
-    <figure class="kitchen-photo"><div class="kitchen-photo-img" style="background-image: url('photo-2.jpg');"></div></figure>
-    <figure class="kitchen-photo"><div class="kitchen-photo-img" style="background-image: url('photo-3.jpg');"></div></figure>
-    <figure class="kitchen-photo"><div class="kitchen-photo-img" style="background-image: url('photo-4.jpg');"></div></figure>
-    <figure class="kitchen-photo"><div class="kitchen-photo-img" style="background-image: url('photo-5.jpg');"></div></figure>
-    <figure class="kitchen-photo"><div class="kitchen-photo-img" style="background-image: url('photo-6.jpg');"></div></figure>
-    <figure class="kitchen-photo"><div class="kitchen-photo-img" style="background-image: url('photo-7.jpg');"></div></figure>
-    <figure class="kitchen-photo"><div class="kitchen-photo-img" style="background-image: url('photo-8.jpg');"></div></figure>
-    <figure class="kitchen-photo"><div class="kitchen-photo-img" style="background-image: url('photo-9.jpg');"></div></figure>
   </div>
   </div>
   <p style="text-align: center; font-family: 'Fraunces', serif; font-style: italic; font-size: 15px; opacity: 0.7; margin-top: 32px;">Got a photo of us? <a href="https://drive.google.com/drive/folders/1kjXA6hAsw1bi0A2_eav8yVIZEGnd0CUs?usp=sharing" target="_blank" rel="noopener" style="color: var(--burgundy); text-decoration: underline;">Drop it in the Google Drive →</a></p>
@@ -2284,6 +2273,34 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     update();
+  })();
+
+  // Drag-to-scroll for the crew photo strip (desktop mouse users; touch + trackpad already work natively)
+  (function(){
+    const strip = document.querySelector('.kitchen-strip-viewport');
+    if (!strip) return;
+    let isDown = false, startX = 0, startScroll = 0;
+    strip.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'touch') return;
+      isDown = true;
+      strip.classList.add('is-dragging');
+      startX = e.clientX;
+      startScroll = strip.scrollLeft;
+      strip.setPointerCapture(e.pointerId);
+    });
+    strip.addEventListener('pointermove', (e) => {
+      if (!isDown) return;
+      strip.scrollLeft = startScroll - (e.clientX - startX);
+    });
+    const end = (e) => {
+      if (!isDown) return;
+      isDown = false;
+      strip.classList.remove('is-dragging');
+      try { strip.releasePointerCapture(e.pointerId); } catch(_) {}
+    };
+    strip.addEventListener('pointerup', end);
+    strip.addEventListener('pointercancel', end);
+    strip.addEventListener('pointerleave', end);
   })();
 </script>
 </body>
