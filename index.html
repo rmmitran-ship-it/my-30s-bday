@@ -1956,36 +1956,19 @@
     padding: 110px 40px;
   }
   .lineup-inner {
-    max-width: 1400px;
+    max-width: 720px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
+    text-align: center;
   }
-  .lineup-photo {
-    position: relative;
-    border-radius: 20px;
-    overflow: hidden;
-    aspect-ratio: 4/5;
-    border: 2px solid var(--cream);
-  }
-  .lineup-photo > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .lineup-photo-badge {
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    width: 72px;
-    height: 72px;
+  .lineup-logo-mark {
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     border: 2px solid var(--cream);
     background: var(--ink);
     object-fit: cover;
+    display: block;
+    margin: 0 auto 28px;
   }
   .lineup-eyebrow {
     display: inline-block;
@@ -2014,12 +1997,12 @@
     font-size: 18px;
     line-height: 1.55;
     opacity: 0.9;
-    max-width: 480px;
+    max-width: 560px;
+    margin: 0 auto;
   }
   @media (max-width: 800px) {
     .lineup { padding: 70px 24px; }
-    .lineup-inner { grid-template-columns: 1fr; gap: 36px; }
-    .lineup-photo { max-width: 480px; margin: 0 auto; }
+    .lineup-logo-mark { width: 130px; height: 130px; }
   }
 
   /* ==================== FLIGHTS ==================== */
@@ -2257,16 +2240,11 @@
 <!-- ==================== LINE-UP ==================== -->
 <section class="lineup">
   <div class="lineup-inner">
-    <figure class="lineup-photo">
-      <img src="pwv-live.jpg" alt="Peak with Vic — live" loading="lazy">
-      <img class="lineup-photo-badge" src="pwv-logo.jpg" alt="PWV logo" loading="lazy">
-    </figure>
-    <div class="lineup-body">
-      <span class="lineup-eyebrow">LINE-UP</span>
-      <h2 class="lineup-title">Peak with <em>Vic.</em></h2>
-      <p class="lineup-text">Yeah — we have a DJ. My friend Vic (aka PWV) is flying in to spin. Expect bangers, smoke, and the kind of set that makes leaving the dance floor feel rude.</p>
-      <a href="https://www.instagram.com/peakwithvic?igsh=MXBncDZiZzc4cXRwbw==" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 24px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 14px; letter-spacing: 0.5px; color: var(--lime); text-decoration: none; border-bottom: 1px solid var(--lime); padding-bottom: 2px;">@peakwithvic →</a>
-    </div>
+    <img class="lineup-logo-mark" src="pwv-logo.jpg" alt="PWV — Peak with Vic" loading="lazy">
+    <span class="lineup-eyebrow">LINE-UP</span>
+    <h2 class="lineup-title">Peak with <em>Vic.</em></h2>
+    <p class="lineup-text">We got big boi Peak With Vic booked! Check the instagram and give him a follow.</p>
+    <a href="https://www.instagram.com/peakwithvic?igsh=MXBncDZiZzc4cXRwbw==" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 24px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 14px; letter-spacing: 0.5px; color: var(--lime); text-decoration: none; border-bottom: 1px solid var(--lime); padding-bottom: 2px;">@peakwithvic →</a>
   </div>
 </section>
 
