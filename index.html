@@ -2021,6 +2021,183 @@
     .lineup-inner { grid-template-columns: 1fr; gap: 36px; }
     .lineup-photo { max-width: 480px; margin: 0 auto; }
   }
+
+  /* ==================== FLIGHTS ==================== */
+  .flights {
+    background: var(--bg-butter);
+    padding: 110px 40px;
+    color: var(--ink);
+  }
+  .flights-inner {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+  .flights-head {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .flights-eyebrow {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    padding: 6px 14px;
+    border-radius: 40px;
+    margin-bottom: 20px;
+  }
+  .flights-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(40px, 5.5vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .flights-title em { font-style: italic; color: var(--burgundy); }
+  .flights-intro {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.5;
+    max-width: 600px;
+    margin: 0 auto;
+    opacity: 0.85;
+  }
+  .flights-control {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 40px 0 36px;
+  }
+  .flights-control label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .flight-select {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 20px;
+    padding: 12px 44px 12px 22px;
+    border: 2px solid var(--ink);
+    border-radius: 40px;
+    background: var(--cream);
+    color: var(--ink);
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'><path d='M0 0 L5 6 L10 0 Z' fill='%233A1410'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    background-size: 10px 6px;
+  }
+  .flight-card {
+    background: var(--cream);
+    border: 2px solid var(--ink);
+    border-radius: 20px;
+    padding: 36px;
+  }
+  .flight-card[hidden] { display: none; }
+  .flight-note {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.5;
+    margin-bottom: 28px;
+    color: var(--ink);
+  }
+  .flight-legs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .flight-leg {
+    background: var(--bg-cream);
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+  .flight-leg-label {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--burgundy);
+    margin-bottom: 8px;
+  }
+  .flight-leg-route {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .flight-leg-time {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .flight-leg-airline {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--ink-soft);
+    opacity: 0.8;
+  }
+  .flight-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(58, 20, 16, 0.15);
+  }
+  .flight-dates {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: var(--ink-soft);
+  }
+  .flight-price {
+    font-family: 'Titan One', sans-serif;
+    font-size: 30px;
+    color: var(--burgundy);
+    letter-spacing: -0.01em;
+  }
+  .flight-card .flight-sub {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed rgba(58, 20, 16, 0.25);
+  }
+  .flight-sub-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--burgundy);
+    margin-bottom: 12px;
+    display: block;
+  }
+  @media (max-width: 720px) {
+    .flights { padding: 70px 20px; }
+    .flight-card { padding: 24px; }
+    .flight-legs { grid-template-columns: 1fr; }
+    .flight-price { font-size: 26px; }
+  }
 </style>
 </head>
 <body>
@@ -2178,6 +2355,129 @@
             <span class="how-axis-dot" style="left: 87.5%"></span>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FLIGHTS ==================== -->
+<section class="flights">
+  <div class="flights-inner">
+    <div class="flights-head">
+      <span class="flights-eyebrow">FLIGHTS · 3–7 SEPTEMBER</span>
+      <h2 class="flights-title">I went down a <em>rabbit hole.</em></h2>
+      <p class="flights-intro">Tell me where you're flying from — I've already scouted the best routes I could find. Dates assume Thu → Mon. Prices and times will move; book early.</p>
+    </div>
+
+    <div class="flights-control">
+      <label for="flight-from">I am flying from</label>
+      <select id="flight-from" class="flight-select" aria-label="Choose your departure city">
+        <option value="cologne">Cologne (CGN)</option>
+        <option value="london">London (STN)</option>
+        <option value="ams-ein">Amsterdam / Eindhoven</option>
+        <option value="barcelona">Barcelona</option>
+      </select>
+    </div>
+
+    <!-- Cologne -->
+    <div class="flight-card" data-city="cologne">
+      <p class="flight-note">It lands late, but it'll be our mission to stay up for drinks 😉. This is the one I booked.</p>
+      <div class="flight-legs">
+        <div class="flight-leg">
+          <span class="flight-leg-label">Outbound · Wed 2 Sep</span>
+          <div class="flight-leg-route">CGN → OTP</div>
+          <div class="flight-leg-time">22:55 → 02:30 (+1)</div>
+          <div class="flight-leg-airline">Wizz Air · W4 3262</div>
+        </div>
+        <div class="flight-leg">
+          <span class="flight-leg-label">Return · Sun 6 Sep</span>
+          <div class="flight-leg-route">OTP → CGN</div>
+          <div class="flight-leg-time">20:25 → 22:20</div>
+          <div class="flight-leg-airline">Wizz Air · W4 3261</div>
+        </div>
+      </div>
+      <div class="flight-meta">
+        <span class="flight-dates">2 Sep → 6 Sep · direct both ways</span>
+        <span class="flight-price">€119.23</span>
+      </div>
+    </div>
+
+    <!-- London -->
+    <div class="flight-card" data-city="london" hidden>
+      <p class="flight-note">Lots of options out of London, but Stansted gave me the nicest spread for 3–7 September. Direct both ways.</p>
+      <div class="flight-legs">
+        <div class="flight-leg">
+          <span class="flight-leg-label">Outbound · Thu 3 Sep</span>
+          <div class="flight-leg-route">STN → OTP</div>
+          <div class="flight-leg-time">20:05 → 01:15 (+1) · 3h 10</div>
+          <div class="flight-leg-airline">Ryanair (Malta Air)</div>
+        </div>
+        <div class="flight-leg">
+          <span class="flight-leg-label">Return · Mon 7 Sep</span>
+          <div class="flight-leg-route">OTP → STN</div>
+          <div class="flight-leg-time">20:50 → 22:10 · 3h 20</div>
+          <div class="flight-leg-airline">Ryanair</div>
+        </div>
+      </div>
+      <div class="flight-meta">
+        <span class="flight-dates">3 Sep → 7 Sep · direct both ways</span>
+        <span class="flight-price">from €141</span>
+      </div>
+    </div>
+
+    <!-- Amsterdam / Eindhoven -->
+    <div class="flight-card" data-city="ams-ein" hidden>
+      <p class="flight-note">Big price spread between airports. 3–4 of you are coming from this area — coordinate how to get to whichever one wins. Both for 3–7 September.</p>
+      <div class="flight-sub">
+        <span class="flight-sub-label">Amsterdam (AMS) · TAROM</span>
+        <div class="flight-legs">
+          <div class="flight-leg">
+            <span class="flight-leg-label">Outbound · Thu 3 Sep</span>
+            <div class="flight-leg-route">AMS → OTP</div>
+            <div class="flight-leg-time">20:00 → 23:45 · 2h 45</div>
+            <div class="flight-leg-airline">TAROM · direct</div>
+          </div>
+          <div class="flight-leg">
+            <span class="flight-leg-label">Return · Mon 7 Sep</span>
+            <div class="flight-leg-route">OTP → AMS</div>
+            <div class="flight-leg-time">16:50 → 18:55 · 3h 05</div>
+            <div class="flight-leg-airline">TAROM · direct</div>
+          </div>
+        </div>
+        <div class="flight-meta">
+          <span class="flight-dates">3 Sep → 7 Sep</span>
+          <span class="flight-price">from €251</span>
+        </div>
+      </div>
+      <div class="flight-sub">
+        <span class="flight-sub-label">Eindhoven (EIN) · Wizz Air</span>
+        <div class="flight-legs">
+          <div class="flight-leg">
+            <span class="flight-leg-label">Outbound · Thu 3 Sep</span>
+            <div class="flight-leg-route">EIN → OTP</div>
+            <div class="flight-leg-time">16:35 → 20:15 · 2h 40</div>
+            <div class="flight-leg-airline">Wizz Air · direct</div>
+          </div>
+          <div class="flight-leg">
+            <span class="flight-leg-label">Return · Mon 7 Sep</span>
+            <div class="flight-leg-route">OTP → EIN</div>
+            <div class="flight-leg-time">06:50 → 08:45 · 2h 55</div>
+            <div class="flight-leg-airline">Wizz Air · direct</div>
+          </div>
+        </div>
+        <div class="flight-meta">
+          <span class="flight-dates">3 Sep → 7 Sep · &gt;€130 cheaper than AMS</span>
+          <span class="flight-price">from €114</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Barcelona -->
+    <div class="flight-card" data-city="barcelona" hidden>
+      <p class="flight-note">Either fly direct or save ~€100 and add an hour. Photos of the actual options coming when I find them — same window, 3–7 September.</p>
+      <div class="flight-meta">
+        <span class="flight-dates">3 Sep → 7 Sep · options TBA</span>
+        <span class="flight-price">~€120–220</span>
       </div>
     </div>
   </div>
@@ -2390,6 +2690,18 @@
     strip.addEventListener('pointerup', end);
     strip.addEventListener('pointercancel', end);
     strip.addEventListener('pointerleave', end);
+  })();
+
+  // Flights "I am flying from" dropdown
+  (function(){
+    const select = document.getElementById('flight-from');
+    if (!select) return;
+    const cards = document.querySelectorAll('.flight-card[data-city]');
+    function update() {
+      cards.forEach(c => { c.hidden = c.dataset.city !== select.value; });
+    }
+    select.addEventListener('change', update);
+    update();
   })();
 </script>
 </body>
