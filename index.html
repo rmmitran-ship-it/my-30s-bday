@@ -1948,6 +1948,79 @@
     }
     .nav-links { display: none; }
   }
+
+  /* ==================== LINE-UP ==================== */
+  .lineup {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 110px 40px;
+  }
+  .lineup-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .lineup-photo {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 4/5;
+    border: 2px solid var(--cream);
+  }
+  .lineup-photo > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .lineup-photo-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 2px solid var(--cream);
+    background: var(--ink);
+    object-fit: cover;
+  }
+  .lineup-eyebrow {
+    display: inline-block;
+    background: var(--lime);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    padding: 6px 14px;
+    border-radius: 40px;
+    margin-bottom: 24px;
+  }
+  .lineup-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(44px, 6vw, 88px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    color: var(--cream);
+  }
+  .lineup-title em { font-style: italic; color: var(--lime); }
+  .lineup-text {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    line-height: 1.55;
+    opacity: 0.9;
+    max-width: 480px;
+  }
+  @media (max-width: 800px) {
+    .lineup { padding: 70px 24px; }
+    .lineup-inner { grid-template-columns: 1fr; gap: 36px; }
+    .lineup-photo { max-width: 480px; margin: 0 auto; }
+  }
 </style>
 </head>
 <body>
@@ -2003,6 +2076,21 @@
     <span>SEPT 4</span><span>BUCHAREST</span><span>BBQ + POOL</span><span>RSVP</span><span>TURNING 30</span><span>SEPT 4</span><span>BUCHAREST</span><span>BBQ + POOL</span><span>RSVP</span><span>TURNING 30</span>
   </div>
 </div>
+
+<!-- ==================== LINE-UP ==================== -->
+<section class="lineup">
+  <div class="lineup-inner">
+    <figure class="lineup-photo">
+      <img src="pwv-live.jpg" alt="Peak with Vic — live" loading="lazy">
+      <img class="lineup-photo-badge" src="pwv-logo.jpg" alt="PWV logo" loading="lazy">
+    </figure>
+    <div class="lineup-body">
+      <span class="lineup-eyebrow">LINE-UP</span>
+      <h2 class="lineup-title">Peak with <em>Vic.</em></h2>
+      <p class="lineup-text">Yeah — we have a DJ. My friend Vic (aka PWV) is flying in to spin. Expect bangers, smoke, and the kind of set that makes leaving the dance floor feel rude.</p>
+    </div>
+  </div>
+</section>
 
 <!-- ==================== PRICING ==================== -->
 <section class="pricing">
