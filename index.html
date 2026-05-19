@@ -1949,26 +1949,30 @@
     .nav-links { display: none; }
   }
 
-  /* ==================== LINE-UP ==================== */
+  /* ==================== LINE-UP (compact strip) ==================== */
   .lineup {
     background: var(--ink);
     color: var(--cream);
-    padding: 110px 40px;
+    padding: 28px 40px;
   }
   .lineup-inner {
-    max-width: 720px;
+    max-width: 1100px;
     margin: 0 auto;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 18px;
   }
   .lineup-logo-mark {
-    width: 160px;
-    height: 160px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     border: 2px solid var(--cream);
     background: var(--ink);
     object-fit: cover;
     display: block;
-    margin: 0 auto 28px;
+    flex-shrink: 0;
   }
   .lineup-eyebrow {
     display: inline-block;
@@ -1976,33 +1980,36 @@
     color: var(--ink);
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-size: 11px;
-    letter-spacing: 2.5px;
-    padding: 6px 14px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 5px 12px;
     border-radius: 40px;
-    margin-bottom: 24px;
   }
   .lineup-title {
     font-family: 'Fraunces', serif;
-    font-weight: 400;
-    font-size: clamp(44px, 6vw, 88px);
-    line-height: 1;
-    letter-spacing: -0.02em;
-    margin-bottom: 24px;
+    font-weight: 500;
+    font-size: clamp(20px, 2.4vw, 28px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
     color: var(--cream);
+    margin: 0;
   }
   .lineup-title em { font-style: italic; color: var(--lime); }
-  .lineup-text {
-    font-family: 'Fraunces', serif;
-    font-size: 18px;
-    line-height: 1.55;
-    opacity: 0.9;
-    max-width: 560px;
-    margin: 0 auto;
+  .lineup-ig {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: var(--lime);
+    text-decoration: none;
+    border-bottom: 1px solid var(--lime);
+    padding-bottom: 2px;
   }
-  @media (max-width: 800px) {
-    .lineup { padding: 70px 24px; }
-    .lineup-logo-mark { width: 130px; height: 130px; }
+  @media (max-width: 600px) {
+    .lineup { padding: 22px 20px; }
+    .lineup-inner { gap: 12px; }
   }
 
   /* ==================== FLIGHTS ==================== */
@@ -2243,8 +2250,7 @@
     <img class="lineup-logo-mark" src="pwv-logo.jpg" alt="PWV — Peak with Vic" loading="lazy">
     <span class="lineup-eyebrow">LINE-UP</span>
     <h2 class="lineup-title">Peak with <em>Vic.</em></h2>
-    <p class="lineup-text">We got big boi Peak With Vic booked! Check the instagram and give him a follow.</p>
-    <a href="https://www.instagram.com/peakwithvic?igsh=MXBncDZiZzc4cXRwbw==" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 24px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 14px; letter-spacing: 0.5px; color: var(--lime); text-decoration: none; border-bottom: 1px solid var(--lime); padding-bottom: 2px;">@peakwithvic →</a>
+    <a class="lineup-ig" href="https://www.instagram.com/peakwithvic?igsh=MXBncDZiZzc4cXRwbw==" target="_blank" rel="noopener">@peakwithvic →</a>
   </div>
 </section>
 
