@@ -2640,9 +2640,9 @@
 
     <form class="overlap-form" id="overlap-form" autocomplete="off" novalidate>
       <input type="text" name="name" maxlength="40" required placeholder="Your name" class="overlap-input overlap-input-name" aria-label="Your name">
-      <input type="date" name="arrive" required min="2026-09-01" max="2026-09-10" class="overlap-input overlap-input-date" aria-label="Arrival date">
+      <input type="date" name="arrive" required min="2026-08-01" max="2026-09-30" class="overlap-input overlap-input-date" aria-label="Arrival date">
       <span class="overlap-arrow" aria-hidden="true">→</span>
-      <input type="date" name="depart" required min="2026-09-01" max="2026-09-10" class="overlap-input overlap-input-date" aria-label="Departure date">
+      <input type="date" name="depart" required min="2026-08-01" max="2026-09-30" class="overlap-input overlap-input-date" aria-label="Departure date">
       <button type="submit" class="overlap-submit">Add me →</button>
     </form>
     <p class="overlap-confirm" id="overlap-confirm" hidden>Added! Also drop your dates in the <a href="https://chat.whatsapp.com/JKLAgCrlFrk9aL17dJbH6n?mode=gi_t" target="_blank" rel="noopener">WhatsApp group</a> so Raluca can sync the master list.</p>
@@ -3065,7 +3065,7 @@
         if (!name) return showError('Please add your name.');
         if (!arrive || !depart) return showError('Please pick both an arrival and a departure date.');
         if (depart < arrive) return showError("Departure can't be before arrival 🙃");
-        if (arrive < '2026-09-01' || depart > '2026-09-10') return showError('Pick dates between 1–10 September 2026.');
+        if (arrive < '2026-08-01' || depart > '2026-09-30') return showError('Pick dates between 1 August and 30 September 2026.');
         const list = loadLocal();
         // replace if same name already exists in localStorage
         const idx = list.findIndex(a => a.name.toLowerCase() === name.toLowerCase());
