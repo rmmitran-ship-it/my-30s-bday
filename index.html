@@ -2305,26 +2305,53 @@
     background: var(--burgundy);
     border-color: var(--ink);
   }
-  .overlap-cta-wrap {
-    text-align: center;
+  .overlap-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     margin-top: 36px;
   }
-  .overlap-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--lime);
-    color: var(--ink);
+  .overlap-input, .overlap-submit {
     font-family: 'Fraunces', serif;
-    font-weight: 500;
-    font-size: 17px;
-    padding: 14px 28px;
-    border-radius: 60px;
+    font-size: 16px;
+    padding: 12px 18px;
+    border-radius: 40px;
     border: 2px solid var(--ink);
-    text-decoration: none;
+    background: var(--cream);
+    color: var(--ink);
+    outline: none;
+  }
+  .overlap-input::placeholder { color: var(--ink-soft); opacity: 0.55; }
+  .overlap-input:focus { border-color: var(--burgundy); }
+  .overlap-input-name { min-width: 200px; }
+  .overlap-input-date {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 14px;
+  }
+  .overlap-arrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    color: var(--ink-soft);
+  }
+  .overlap-submit {
+    background: var(--lime);
+    font-weight: 500;
+    cursor: pointer;
     transition: background 0.2s, transform 0.2s;
   }
-  .overlap-cta:hover { background: var(--lime-dark); transform: translateY(-1px); }
+  .overlap-submit:hover { background: var(--lime-dark); transform: translateY(-1px); }
+  .overlap-confirm, .overlap-form-error {
+    text-align: center;
+    margin-top: 18px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+  .overlap-confirm a { color: var(--burgundy); }
+  .overlap-form-error { color: var(--burgundy); font-style: normal; font-weight: 500; }
   .overlap-empty {
     text-align: center;
     font-family: 'Fraunces', serif;
@@ -2345,6 +2372,9 @@
     .overlap-name { font-size: 13px; padding: 8px 0; }
     .overlap-name-host { display: block; margin-left: 0; margin-top: 4px; font-size: 8px; }
     .overlap-cell { min-height: 28px; }
+    .overlap-form { flex-direction: column; align-items: stretch; }
+    .overlap-input-name, .overlap-input-date { width: 100%; min-width: 0; }
+    .overlap-arrow { display: none; }
   }
 </style>
 </head>
@@ -2602,15 +2632,21 @@
   <div class="overlap-inner">
     <div class="overlap-head">
       <span class="overlap-eyebrow">WHO'S COMING WHEN</span>
-      <h2 class="overlap-title">Stack your dates with <em>the crew.</em></h2>
-      <p class="overlap-intro">So we can roommate up, share Airbnbs, share cabs from the airport — drop me your in/out dates and you'll show up here. <strong style="color: var(--burgundy);">★</strong> marks the main party (Sat 5).</p>
+      <h2 class="overlap-title">Tell us when <em>you're flying.</em></h2>
+      <p class="overlap-intro">So we can group people for accommodations.</p>
     </div>
 
     <div class="overlap-grid" id="overlap-grid"></div>
 
-    <div class="overlap-cta-wrap">
-      <a href="https://chat.whatsapp.com/JKLAgCrlFrk9aL17dJbH6n?mode=gi_t" target="_blank" rel="noopener" class="overlap-cta">Drop your dates →</a>
-    </div>
+    <form class="overlap-form" id="overlap-form" autocomplete="off" novalidate>
+      <input type="text" name="name" maxlength="40" required placeholder="Your name" class="overlap-input overlap-input-name" aria-label="Your name">
+      <input type="date" name="arrive" required min="2026-09-01" max="2026-09-10" class="overlap-input overlap-input-date" aria-label="Arrival date">
+      <span class="overlap-arrow" aria-hidden="true">→</span>
+      <input type="date" name="depart" required min="2026-09-01" max="2026-09-10" class="overlap-input overlap-input-date" aria-label="Departure date">
+      <button type="submit" class="overlap-submit">Add me →</button>
+    </form>
+    <p class="overlap-confirm" id="overlap-confirm" hidden>Added! Also drop your dates in the <a href="https://chat.whatsapp.com/JKLAgCrlFrk9aL17dJbH6n?mode=gi_t" target="_blank" rel="noopener">WhatsApp group</a> so Raluca can sync the master list.</p>
+    <p class="overlap-form-error" id="overlap-form-error" hidden></p>
   </div>
 </section>
 
@@ -2925,9 +2961,14 @@
 
   // Overlap calendar — Gantt-style "who's here when"
   //
-  // To add a new person, just append to ATTENDEES below:
-  //   { name: 'Their name', arrive: '2026-09-03', depart: '2026-09-07', host: false }
-  // (arrive/depart are inclusive — both ends count as "present")
+  // Two data sources are merged at render time:
+  //   1) ATTENDEES below — the canonical list. To add someone permanently
+  //      (or to remove a localStorage entry that was wrong), edit here.
+  //      Format: { name: 'Name', arrive: '2026-09-03', depart: '2026-09-07', host: false }
+  //   2) The visitor's localStorage — anyone who fills the in-page form
+  //      appears on their own device only. Persists across reloads on
+  //      that browser. Tell them to also drop dates in WhatsApp so the
+  //      master list can be updated for everyone.
   (function(){
     const ATTENDEES = [
       { name: 'Raluca', arrive: '2026-09-02', depart: '2026-09-06', host: true },
@@ -2940,33 +2981,106 @@
       { iso: '2026-09-06', dow: 'Sun', dom: 6 },
       { iso: '2026-09-07', dow: 'Mon', dom: 7 },
     ];
+    const LS_KEY = 'overlap-local-attendees-v1';
 
     const grid = document.getElementById('overlap-grid');
     if (!grid) return;
+    const form = document.getElementById('overlap-form');
+    const confirm = document.getElementById('overlap-confirm');
+    const errBox = document.getElementById('overlap-form-error');
 
     const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-    const parts = ['<div class="overlap-corner"></div>'];
-    DAYS.forEach(d => {
-      const star = d.party ? '<span class="overlap-day-star">★</span>' : '';
-      parts.push(`<div class="overlap-day${d.party ? ' is-party' : ''}"><span class="overlap-day-dow">${d.dow}</span><strong>${d.dom}${star}</strong></div>`);
-    });
-    if (ATTENDEES.length === 0) {
-      parts.push('<div class="overlap-empty">No one\'s dropped dates yet. Be first 👇</div>');
-    } else {
-      ATTENDEES.forEach(a => {
-        const host = a.host ? ' <span class="overlap-name-host">host</span>' : '';
-        parts.push(`<div class="overlap-name">${esc(a.name)}${host}</div>`);
-        DAYS.forEach(d => {
-          const present = d.iso >= a.arrive && d.iso <= a.depart;
-          const cls = ['overlap-cell'];
-          if (present) cls.push('is-present');
-          if (d.party) cls.push('is-party-day');
-          parts.push(`<div class="${cls.join(' ')}"></div>`);
+    function loadLocal() {
+      try {
+        const raw = localStorage.getItem(LS_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (_) { return []; }
+    }
+    function saveLocal(list) {
+      try { localStorage.setItem(LS_KEY, JSON.stringify(list)); } catch (_) {}
+    }
+    function allAttendees() {
+      const seen = new Set(ATTENDEES.map(a => a.name.toLowerCase()));
+      const merged = [...ATTENDEES];
+      loadLocal().forEach(a => {
+        if (!seen.has(a.name.toLowerCase())) {
+          merged.push({ ...a, isLocal: true });
+          seen.add(a.name.toLowerCase());
+        }
+      });
+      return merged;
+    }
+
+    function render() {
+      const list = allAttendees();
+      const parts = ['<div class="overlap-corner"></div>'];
+      DAYS.forEach(d => {
+        const star = d.party ? '<span class="overlap-day-star">★</span>' : '';
+        parts.push(`<div class="overlap-day${d.party ? ' is-party' : ''}"><span class="overlap-day-dow">${d.dow}</span><strong>${d.dom}${star}</strong></div>`);
+      });
+      if (list.length === 0) {
+        parts.push('<div class="overlap-empty">No one\'s dropped dates yet. Be first 👇</div>');
+      } else {
+        list.forEach(a => {
+          const host = a.host ? ' <span class="overlap-name-host">host</span>' : '';
+          const you  = a.isLocal ? ' <span class="overlap-name-host" style="background: var(--cream); color: var(--burgundy); border-color: var(--burgundy);">you</span>' : '';
+          parts.push(`<div class="overlap-name">${esc(a.name)}${host}${you}</div>`);
+          DAYS.forEach(d => {
+            const present = d.iso >= a.arrive && d.iso <= a.depart;
+            const cls = ['overlap-cell'];
+            if (present) cls.push('is-present');
+            if (d.party) cls.push('is-party-day');
+            parts.push(`<div class="${cls.join(' ')}"></div>`);
+          });
         });
+      }
+      grid.innerHTML = parts.join('');
+    }
+
+    function showError(msg) {
+      if (!errBox) return;
+      errBox.textContent = msg;
+      errBox.hidden = false;
+    }
+    function clearError() {
+      if (!errBox) return;
+      errBox.hidden = true;
+      errBox.textContent = '';
+    }
+    function showConfirm() {
+      if (!confirm) return;
+      confirm.hidden = false;
+    }
+
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        clearError();
+        const data = new FormData(form);
+        const name = (data.get('name') || '').toString().trim();
+        const arrive = (data.get('arrive') || '').toString();
+        const depart = (data.get('depart') || '').toString();
+        if (!name) return showError('Please add your name.');
+        if (!arrive || !depart) return showError('Please pick both an arrival and a departure date.');
+        if (depart < arrive) return showError("Departure can't be before arrival 🙃");
+        if (arrive < '2026-09-01' || depart > '2026-09-10') return showError('Pick dates between 1–10 September 2026.');
+        const list = loadLocal();
+        // replace if same name already exists in localStorage
+        const idx = list.findIndex(a => a.name.toLowerCase() === name.toLowerCase());
+        const entry = { name, arrive, depart };
+        if (idx >= 0) list[idx] = entry; else list.push(entry);
+        saveLocal(list);
+        render();
+        form.reset();
+        showConfirm();
+        // Scroll the new row into view on small screens
+        try { grid.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (_) {}
       });
     }
-    grid.innerHTML = parts.join('');
+
+    render();
   })();
 </script>
 </body>
