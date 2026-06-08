@@ -2184,6 +2184,168 @@
     .flight-legs { grid-template-columns: 1fr; }
     .flight-price { font-size: 26px; }
   }
+
+  /* ==================== OVERLAP / CALENDAR ==================== */
+  .overlap {
+    background: var(--bg-cream);
+    padding: 100px 40px;
+  }
+  .overlap-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .overlap-head {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .overlap-eyebrow {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    padding: 6px 14px;
+    border-radius: 40px;
+    margin-bottom: 20px;
+  }
+  .overlap-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(40px, 5.5vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .overlap-title em { font-style: italic; color: var(--burgundy); }
+  .overlap-intro {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.5;
+    max-width: 640px;
+    margin: 0 auto;
+    opacity: 0.85;
+  }
+  .overlap-grid {
+    display: grid;
+    grid-template-columns: minmax(120px, 180px) repeat(6, minmax(0, 1fr));
+    gap: 8px;
+    align-items: center;
+    background: var(--cream);
+    padding: 24px;
+    border: 2px solid var(--ink);
+    border-radius: 18px;
+  }
+  .overlap-corner { /* empty top-left */ }
+  .overlap-day {
+    text-align: center;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .overlap-day-dow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .overlap-day strong {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-top: 4px;
+  }
+  .overlap-day-star {
+    color: var(--burgundy);
+    font-size: 13px;
+    margin-left: 2px;
+    vertical-align: super;
+  }
+  .overlap-day.is-party strong { color: var(--burgundy); }
+  .overlap-name {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--ink);
+    padding: 12px 0 12px 4px;
+  }
+  .overlap-name-host {
+    display: inline-block;
+    background: var(--lime);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 20px;
+    margin-left: 8px;
+    border: 1px solid var(--ink);
+    vertical-align: middle;
+  }
+  .overlap-cell {
+    min-height: 36px;
+    border-radius: 8px;
+    background: rgba(58, 20, 16, 0.06);
+  }
+  .overlap-cell.is-present {
+    background: var(--lime);
+    border: 2px solid var(--ink);
+  }
+  .overlap-cell.is-party-day.is-present {
+    background: var(--burgundy);
+    border-color: var(--ink);
+  }
+  .overlap-cta-wrap {
+    text-align: center;
+    margin-top: 36px;
+  }
+  .overlap-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--lime);
+    color: var(--ink);
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 17px;
+    padding: 14px 28px;
+    border-radius: 60px;
+    border: 2px solid var(--ink);
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .overlap-cta:hover { background: var(--lime-dark); transform: translateY(-1px); }
+  .overlap-empty {
+    text-align: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    padding: 18px;
+    opacity: 0.7;
+    grid-column: 1 / -1;
+  }
+  @media (max-width: 720px) {
+    .overlap { padding: 70px 20px; }
+    .overlap-grid {
+      grid-template-columns: 70px repeat(6, minmax(0, 1fr));
+      gap: 5px;
+      padding: 16px;
+    }
+    .overlap-day strong { font-size: 18px; }
+    .overlap-day-dow { font-size: 9px; letter-spacing: 1px; }
+    .overlap-name { font-size: 13px; padding: 8px 0; }
+    .overlap-name-host { display: block; margin-left: 0; margin-top: 4px; font-size: 8px; }
+    .overlap-cell { min-height: 28px; }
+  }
 </style>
 </head>
 <body>
@@ -2431,6 +2593,23 @@
         <span class="flight-dates">3 Sep → 7 Sep · into BBU (closer to town)</span>
         <span class="flight-price">from €70</span>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== OVERLAP / CALENDAR ==================== -->
+<section class="overlap">
+  <div class="overlap-inner">
+    <div class="overlap-head">
+      <span class="overlap-eyebrow">WHO'S COMING WHEN</span>
+      <h2 class="overlap-title">Stack your dates with <em>the crew.</em></h2>
+      <p class="overlap-intro">So we can roommate up, share Airbnbs, share cabs from the airport — drop me your in/out dates and you'll show up here. <strong style="color: var(--burgundy);">★</strong> marks the main party (Sat 5).</p>
+    </div>
+
+    <div class="overlap-grid" id="overlap-grid"></div>
+
+    <div class="overlap-cta-wrap">
+      <a href="https://chat.whatsapp.com/JKLAgCrlFrk9aL17dJbH6n?mode=gi_t" target="_blank" rel="noopener" class="overlap-cta">Drop your dates →</a>
     </div>
   </div>
 </section>
@@ -2742,6 +2921,52 @@
     }
     select.addEventListener('change', update);
     update();
+  })();
+
+  // Overlap calendar — Gantt-style "who's here when"
+  //
+  // To add a new person, just append to ATTENDEES below:
+  //   { name: 'Their name', arrive: '2026-09-03', depart: '2026-09-07', host: false }
+  // (arrive/depart are inclusive — both ends count as "present")
+  (function(){
+    const ATTENDEES = [
+      { name: 'Raluca', arrive: '2026-09-02', depart: '2026-09-06', host: true },
+    ];
+    const DAYS = [
+      { iso: '2026-09-02', dow: 'Wed', dom: 2 },
+      { iso: '2026-09-03', dow: 'Thu', dom: 3 },
+      { iso: '2026-09-04', dow: 'Fri', dom: 4 },
+      { iso: '2026-09-05', dow: 'Sat', dom: 5, party: true },
+      { iso: '2026-09-06', dow: 'Sun', dom: 6 },
+      { iso: '2026-09-07', dow: 'Mon', dom: 7 },
+    ];
+
+    const grid = document.getElementById('overlap-grid');
+    if (!grid) return;
+
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+    const parts = ['<div class="overlap-corner"></div>'];
+    DAYS.forEach(d => {
+      const star = d.party ? '<span class="overlap-day-star">★</span>' : '';
+      parts.push(`<div class="overlap-day${d.party ? ' is-party' : ''}"><span class="overlap-day-dow">${d.dow}</span><strong>${d.dom}${star}</strong></div>`);
+    });
+    if (ATTENDEES.length === 0) {
+      parts.push('<div class="overlap-empty">No one\'s dropped dates yet. Be first 👇</div>');
+    } else {
+      ATTENDEES.forEach(a => {
+        const host = a.host ? ' <span class="overlap-name-host">host</span>' : '';
+        parts.push(`<div class="overlap-name">${esc(a.name)}${host}</div>`);
+        DAYS.forEach(d => {
+          const present = d.iso >= a.arrive && d.iso <= a.depart;
+          const cls = ['overlap-cell'];
+          if (present) cls.push('is-present');
+          if (d.party) cls.push('is-party-day');
+          parts.push(`<div class="${cls.join(' ')}"></div>`);
+        });
+      });
+    }
+    grid.innerHTML = parts.join('');
   })();
 </script>
 </body>
