@@ -2229,15 +2229,51 @@
     margin: 0 auto;
     opacity: 0.85;
   }
-  .overlap-grid {
-    display: grid;
-    grid-template-columns: minmax(120px, 180px) repeat(6, minmax(0, 1fr));
-    gap: 8px;
-    align-items: center;
+  .overlap-embed {
     background: var(--cream);
-    padding: 24px;
     border: 2px solid var(--ink);
     border-radius: 18px;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .overlap-embed iframe {
+    display: block;
+    width: 100%;
+    height: 820px;
+    border: 0;
+    background: var(--cream);
+  }
+  .overlap-fallback {
+    text-align: center;
+    margin-top: 18px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .overlap-fallback a { color: var(--burgundy); }
+  @media (max-width: 720px) {
+    .overlap-embed iframe { height: 720px; }
+  }
+
+  .overlap-grid-wrap {
+    background: var(--cream);
+    border: 2px solid var(--ink);
+    border-radius: 18px;
+    padding: 24px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .overlap-grid {
+    display: grid;
+    grid-template-columns: minmax(140px, 160px) repeat(15, minmax(36px, 1fr));
+    column-gap: 4px;
+    row-gap: 8px;
+    align-items: center;
+    min-width: 880px;
+  }
+  .overlap-grid .overlap-week-gap {
+    width: 8px;
   }
   .overlap-corner { /* empty top-left */ }
   .overlap-day {
@@ -2362,16 +2398,18 @@
   }
   @media (max-width: 720px) {
     .overlap { padding: 70px 20px; }
+    .overlap-grid-wrap { padding: 16px; }
     .overlap-grid {
-      grid-template-columns: 70px repeat(6, minmax(0, 1fr));
-      gap: 5px;
-      padding: 16px;
+      grid-template-columns: 100px repeat(15, minmax(28px, 1fr));
+      column-gap: 3px;
+      row-gap: 6px;
+      min-width: 720px;
     }
-    .overlap-day strong { font-size: 18px; }
-    .overlap-day-dow { font-size: 9px; letter-spacing: 1px; }
+    .overlap-day strong { font-size: 14px; }
+    .overlap-day-dow { font-size: 8px; letter-spacing: 0.5px; }
     .overlap-name { font-size: 13px; padding: 8px 0; }
     .overlap-name-host { display: block; margin-left: 0; margin-top: 4px; font-size: 8px; }
-    .overlap-cell { min-height: 28px; }
+    .overlap-cell { min-height: 26px; }
     .overlap-form { flex-direction: column; align-items: stretch; }
     .overlap-input-name, .overlap-input-date { width: 100%; min-width: 0; }
     .overlap-arrow { display: none; }
@@ -2636,17 +2674,16 @@
       <p class="overlap-intro">So we can group people for accommodations.</p>
     </div>
 
-    <div class="overlap-grid" id="overlap-grid"></div>
-
-    <form class="overlap-form" id="overlap-form" autocomplete="off" novalidate>
-      <input type="text" name="name" maxlength="40" required placeholder="Your name" class="overlap-input overlap-input-name" aria-label="Your name">
-      <input type="date" name="arrive" required min="2026-08-01" max="2026-09-30" class="overlap-input overlap-input-date" aria-label="Arrival date">
-      <span class="overlap-arrow" aria-hidden="true">→</span>
-      <input type="date" name="depart" required min="2026-08-01" max="2026-09-30" class="overlap-input overlap-input-date" aria-label="Departure date">
-      <button type="submit" class="overlap-submit">Add me →</button>
-    </form>
-    <p class="overlap-confirm" id="overlap-confirm" hidden>Added! Also drop your dates in the <a href="https://chat.whatsapp.com/JKLAgCrlFrk9aL17dJbH6n?mode=gi_t" target="_blank" rel="noopener">WhatsApp group</a> so Raluca can sync the master list.</p>
-    <p class="overlap-form-error" id="overlap-form-error" hidden></p>
+    <div class="overlap-embed">
+      <iframe
+        src="https://friend-flight-finder.lovable.app/"
+        title="Drop your dates"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allow="clipboard-write"
+      ></iframe>
+    </div>
+    <p class="overlap-fallback">Trouble loading? <a href="https://friend-flight-finder.lovable.app/" target="_blank" rel="noopener">Open it in a new tab →</a></p>
   </div>
 </section>
 
@@ -2957,130 +2994,6 @@
     }
     select.addEventListener('change', update);
     update();
-  })();
-
-  // Overlap calendar — Gantt-style "who's here when"
-  //
-  // Two data sources are merged at render time:
-  //   1) ATTENDEES below — the canonical list. To add someone permanently
-  //      (or to remove a localStorage entry that was wrong), edit here.
-  //      Format: { name: 'Name', arrive: '2026-09-03', depart: '2026-09-07', host: false }
-  //   2) The visitor's localStorage — anyone who fills the in-page form
-  //      appears on their own device only. Persists across reloads on
-  //      that browser. Tell them to also drop dates in WhatsApp so the
-  //      master list can be updated for everyone.
-  (function(){
-    const ATTENDEES = [
-      { name: 'Raluca', arrive: '2026-09-02', depart: '2026-09-06', host: true },
-    ];
-    const DAYS = [
-      { iso: '2026-09-02', dow: 'Wed', dom: 2 },
-      { iso: '2026-09-03', dow: 'Thu', dom: 3 },
-      { iso: '2026-09-04', dow: 'Fri', dom: 4 },
-      { iso: '2026-09-05', dow: 'Sat', dom: 5, party: true },
-      { iso: '2026-09-06', dow: 'Sun', dom: 6 },
-      { iso: '2026-09-07', dow: 'Mon', dom: 7 },
-    ];
-    const LS_KEY = 'overlap-local-attendees-v1';
-
-    const grid = document.getElementById('overlap-grid');
-    if (!grid) return;
-    const form = document.getElementById('overlap-form');
-    const confirm = document.getElementById('overlap-confirm');
-    const errBox = document.getElementById('overlap-form-error');
-
-    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-    function loadLocal() {
-      try {
-        const raw = localStorage.getItem(LS_KEY);
-        const parsed = raw ? JSON.parse(raw) : [];
-        return Array.isArray(parsed) ? parsed : [];
-      } catch (_) { return []; }
-    }
-    function saveLocal(list) {
-      try { localStorage.setItem(LS_KEY, JSON.stringify(list)); } catch (_) {}
-    }
-    function allAttendees() {
-      const seen = new Set(ATTENDEES.map(a => a.name.toLowerCase()));
-      const merged = [...ATTENDEES];
-      loadLocal().forEach(a => {
-        if (!seen.has(a.name.toLowerCase())) {
-          merged.push({ ...a, isLocal: true });
-          seen.add(a.name.toLowerCase());
-        }
-      });
-      return merged;
-    }
-
-    function render() {
-      const list = allAttendees();
-      const parts = ['<div class="overlap-corner"></div>'];
-      DAYS.forEach(d => {
-        const star = d.party ? '<span class="overlap-day-star">★</span>' : '';
-        parts.push(`<div class="overlap-day${d.party ? ' is-party' : ''}"><span class="overlap-day-dow">${d.dow}</span><strong>${d.dom}${star}</strong></div>`);
-      });
-      if (list.length === 0) {
-        parts.push('<div class="overlap-empty">No one\'s dropped dates yet. Be first 👇</div>');
-      } else {
-        list.forEach(a => {
-          const host = a.host ? ' <span class="overlap-name-host">host</span>' : '';
-          const you  = a.isLocal ? ' <span class="overlap-name-host" style="background: var(--cream); color: var(--burgundy); border-color: var(--burgundy);">you</span>' : '';
-          parts.push(`<div class="overlap-name">${esc(a.name)}${host}${you}</div>`);
-          DAYS.forEach(d => {
-            const present = d.iso >= a.arrive && d.iso <= a.depart;
-            const cls = ['overlap-cell'];
-            if (present) cls.push('is-present');
-            if (d.party) cls.push('is-party-day');
-            parts.push(`<div class="${cls.join(' ')}"></div>`);
-          });
-        });
-      }
-      grid.innerHTML = parts.join('');
-    }
-
-    function showError(msg) {
-      if (!errBox) return;
-      errBox.textContent = msg;
-      errBox.hidden = false;
-    }
-    function clearError() {
-      if (!errBox) return;
-      errBox.hidden = true;
-      errBox.textContent = '';
-    }
-    function showConfirm() {
-      if (!confirm) return;
-      confirm.hidden = false;
-    }
-
-    if (form) {
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        clearError();
-        const data = new FormData(form);
-        const name = (data.get('name') || '').toString().trim();
-        const arrive = (data.get('arrive') || '').toString();
-        const depart = (data.get('depart') || '').toString();
-        if (!name) return showError('Please add your name.');
-        if (!arrive || !depart) return showError('Please pick both an arrival and a departure date.');
-        if (depart < arrive) return showError("Departure can't be before arrival 🙃");
-        if (arrive < '2026-08-01' || depart > '2026-09-30') return showError('Pick dates between 1 August and 30 September 2026.');
-        const list = loadLocal();
-        // replace if same name already exists in localStorage
-        const idx = list.findIndex(a => a.name.toLowerCase() === name.toLowerCase());
-        const entry = { name, arrive, depart };
-        if (idx >= 0) list[idx] = entry; else list.push(entry);
-        saveLocal(list);
-        render();
-        form.reset();
-        showConfirm();
-        // Scroll the new row into view on small screens
-        try { grid.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (_) {}
-      });
-    }
-
-    render();
   })();
 </script>
 </body>
