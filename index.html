@@ -2414,6 +2414,155 @@
     .overlap-input-name, .overlap-input-date { width: 100%; min-width: 0; }
     .overlap-arrow { display: none; }
   }
+
+  /* ==================== ITINERARY / DAY BY DAY ==================== */
+  .itinerary {
+    background: var(--bg-cream);
+    padding: 110px 40px;
+  }
+  .itinerary-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .itinerary-head {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .itinerary-eyebrow {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    padding: 6px 14px;
+    border-radius: 40px;
+    margin-bottom: 20px;
+  }
+  .itinerary-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(40px, 5.5vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .itinerary-title em { font-style: italic; color: var(--burgundy); }
+  .itinerary-intro {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.5;
+    max-width: 620px;
+    margin: 0 auto;
+    opacity: 0.85;
+  }
+  .itinerary-days {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .day-card {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 32px;
+    background: var(--cream);
+    border: 2px solid var(--ink);
+    border-radius: 18px;
+    padding: 30px 34px;
+  }
+  .day-card.is-party {
+    background: var(--lime);
+  }
+  .day-card-date { }
+  .day-card-dow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+  .day-card-dom {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .day-card.is-party .day-card-dom { color: var(--ink); }
+  .day-card-star {
+    color: var(--burgundy);
+    font-size: 20px;
+    margin-left: 4px;
+    vertical-align: super;
+    line-height: 0;
+  }
+  .day-card-tagline {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin-top: 8px;
+  }
+  .day-card-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .day-card-item {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 14px;
+    align-items: baseline;
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .day-card-item-time {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    color: var(--burgundy);
+    text-transform: uppercase;
+    padding-top: 3px;
+  }
+  .day-card.is-party .day-card-item-time { color: var(--ink); font-weight: 700; }
+  .day-card-item a {
+    color: var(--burgundy);
+    text-decoration: none;
+    border-bottom: 1px solid var(--burgundy);
+  }
+  .day-card.is-party .day-card-item a {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+  }
+  .day-card-item a:hover { opacity: 0.75; }
+  @media (max-width: 720px) {
+    .itinerary { padding: 70px 20px; }
+    .day-card {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 22px;
+    }
+    .day-card-date { border-bottom: 1px solid rgba(58, 20, 16, 0.15); padding-bottom: 14px; }
+    .day-card-dom { font-size: 34px; }
+    .day-card-tagline { margin-top: 4px; }
+    .day-card-item {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+    .day-card-item-time { padding-top: 0; }
+  }
 </style>
 </head>
 <body>
@@ -2499,6 +2648,123 @@
       ></iframe>
     </div>
     <p class="overlap-fallback">Trouble loading? <a href="https://friend-flight-finder.lovable.app/#rsvp" target="_blank" rel="noopener">Open it in a new tab →</a></p>
+  </div>
+</section>
+
+<!-- ==================== ITINERARY / DAY BY DAY ==================== -->
+<section class="itinerary">
+  <div class="itinerary-inner">
+    <div class="itinerary-head">
+      <span class="itinerary-eyebrow">THE PLAN</span>
+      <h2 class="itinerary-title">A rough plan, <em>day by day.</em></h2>
+      <p class="itinerary-intro">Nothing's mandatory — pick and choose what you're up for. Links open in a new tab.</p>
+    </div>
+
+    <div class="itinerary-days">
+
+      <article class="day-card">
+        <div class="day-card-date">
+          <div class="day-card-dow">Wednesday</div>
+          <div class="day-card-dom">02.09</div>
+          <div class="day-card-tagline">Trickling in</div>
+        </div>
+        <ul class="day-card-items">
+          <li class="day-card-item">
+            <span class="day-card-item-time">Midday</span>
+            <span>Mid-day arrivals — heading to the <a href="https://casaceausescu.ro/en/rezervati-3/" target="_blank" rel="noopener">Ceaușescu house</a> for a tour.</span>
+          </li>
+          <li class="day-card-item">
+            <span class="day-card-item-time">Evening</span>
+            <span>Dinner around Herăstrău park.</span>
+          </li>
+        </ul>
+      </article>
+
+      <article class="day-card">
+        <div class="day-card-date">
+          <div class="day-card-dow">Thursday</div>
+          <div class="day-card-dom">03.09</div>
+          <div class="day-card-tagline">First proper night out</div>
+        </div>
+        <ul class="day-card-items">
+          <li class="day-card-item">
+            <span class="day-card-item-time">Late aft</span>
+            <span>More people landing.</span>
+          </li>
+          <li class="day-card-item">
+            <span class="day-card-item-time">18:00</span>
+            <span>Rowing boats on the lake at <a href="https://share.google/2M19oJonVXQBaOBCV" target="_blank" rel="noopener">Cișmigiu</a>.</span>
+          </li>
+          <li class="day-card-item">
+            <span class="day-card-item-time">20:00</span>
+            <span>Dinner at <a href="https://share.google/KiwnPLVcEkotdiQ47" target="_blank" rel="noopener">Sara Eden</a>.</span>
+          </li>
+        </ul>
+      </article>
+
+      <article class="day-card">
+        <div class="day-card-date">
+          <div class="day-card-dow">Friday</div>
+          <div class="day-card-dom">04.09</div>
+          <div class="day-card-tagline">The big Bucharest day</div>
+        </div>
+        <ul class="day-card-items">
+          <li class="day-card-item">
+            <span class="day-card-item-time">Lunch</span>
+            <span>Tour of the <a href="https://share.google/cwLnfxXKb6pcfEylw" target="_blank" rel="noopener">House of Parliament</a> (exact time TBD).</span>
+          </li>
+          <li class="day-card-item">
+            <span class="day-card-item-time">18:00</span>
+            <span>Aperitivo in <a href="https://share.google/pyxOYpkDJ84pelhTN" target="_blank" rel="noopener">the former vault of a 1912 bank</a>.</span>
+          </li>
+          <li class="day-card-item">
+            <span class="day-card-item-time">19:30</span>
+            <span>Traditional Romanian dinner + live folklore at <a href="https://share.google/bsv251GFMpad5iAqo" target="_blank" rel="noopener">Caru cu Bere</a>.</span>
+          </li>
+          <li class="day-card-item">
+            <span class="day-card-item-time">22:00</span>
+            <span>Drinks + hi-fi vinyl at <a href="https://share.google/u7PkDGEKrxBixdM7R" target="_blank" rel="noopener">Pamela Cafe Bar</a> — they do rachia tasting too.</span>
+          </li>
+        </ul>
+      </article>
+
+      <article class="day-card is-party">
+        <div class="day-card-date">
+          <div class="day-card-dow">Saturday</div>
+          <div class="day-card-dom">05.09 <span class="day-card-star">★</span></div>
+          <div class="day-card-tagline">The main event</div>
+        </div>
+        <ul class="day-card-items">
+          <li class="day-card-item">
+            <span class="day-card-item-time">14:30–15:00</span>
+            <span>Come to my pool party! Welcome window.</span>
+          </li>
+          <li class="day-card-item">
+            <span class="day-card-item-time">Onwards</span>
+            <span>BBQ, drinks, pool. Chill there until the next day, or head into town for a club later.</span>
+          </li>
+          <li class="day-card-item">
+            <span class="day-card-item-time">Location</span>
+            <span><a href="https://share.google/4CJGNBp5zBPj0ob16" target="_blank" rel="noopener">House with the pool →</a></span>
+          </li>
+        </ul>
+      </article>
+
+      <article class="day-card">
+        <div class="day-card-date">
+          <div class="day-card-dow">Sunday</div>
+          <div class="day-card-dom">06.09</div>
+          <div class="day-card-tagline">Explore or recover</div>
+        </div>
+        <ul class="day-card-items">
+          <li class="day-card-item">
+            <span class="day-card-item-time">All day</span>
+            <span>Wander the city — or unwind at <a href="https://share.google/TxhliWYa96OX0ko1J" target="_blank" rel="noopener">Therme</a>, the biggest spa in Europe.</span>
+          </li>
+        </ul>
+      </article>
+
+    </div>
   </div>
 </section>
 
